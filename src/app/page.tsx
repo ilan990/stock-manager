@@ -8,18 +8,19 @@ export default function Home() {
         Gestion Stock Bar
       </h1>
       
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 max-w-2xl mx-auto">
-        <MenuLink 
-          href="/bottles"
+
+    <main className="container mx-auto p-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <MenuLink
+          href="/categories"
           title="Stock"
-          description="Voir et gérer le stock"
+          description="Gérer le stock de boissons"
         />
-        <MenuLink 
-          href="/movement"
-          title="Mouvements"
-          description="Ajouter/Retirer des bouteilles"
-        />
+        {/* autres liens du menu si nécessaire */}
       </div>
+    </main>
+  
+
     </main>
   );
 }

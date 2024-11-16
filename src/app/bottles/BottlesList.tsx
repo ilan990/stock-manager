@@ -1,7 +1,7 @@
+// app/bottles/BottlesList.tsx
 "use client"
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { Bottle } from '@prisma/client';
 import StockActions, { BatchUpdate } from './StockActions';
 
@@ -70,25 +70,16 @@ export default function BottlesList({ initialBottles = [] }: BottlesListProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Stock</h1>
-        <div className="flex gap-4 items-center">
-          <Link 
-            href="/bottles/add"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium"
+      <div className="flex justify-end mb-6">
+        {updates.length > 0 && (
+          <button
+            onClick={saveChanges}
+            disabled={isSubmitting}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
           >
-            Nouvelle Bouteille
-          </Link>
-          {updates.length > 0 && (
-            <button
-              onClick={saveChanges}
-              disabled={isSubmitting}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg disabled:opacity-50"
-            >
-              {isSubmitting ? 'Enregistrement...' : `Enregistrer ${updates.length} modification${updates.length > 1 ? 's' : ''}`}
-            </button>
-          )}
-        </div>
+            {isSubmitting ? 'Enregistrement...' : `Enregistrer ${updates.length} modification${updates.length > 1 ? 's' : ''}`}
+          </button>
+        )}
       </div>
 
       <div className="grid gap-4">
