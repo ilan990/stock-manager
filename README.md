@@ -8,6 +8,7 @@ Application web de gestion de stock pour bar/restaurant, optimisée pour tablett
 - Visualisation du stock de bouteilles
 - Ajout/Retrait de bouteilles du stock
 - Interface optimisée tactile
+- Gestion des mouvements de stock par lots
 
 ### Phase 2 (à venir)
 - Scan de codes-barres
@@ -21,6 +22,7 @@ Application web de gestion de stock pour bar/restaurant, optimisée pour tablett
 - **Base de données**: SQLite avec Prisma
 - **Styling**: TailwindCSS
 - **Type Safety**: TypeScript
+- **Forms**: React Hook Form avec Zod
 
 ## 💻 Installation
 
@@ -37,28 +39,3 @@ npx prisma db push
 
 # Lancer en développement
 npm run dev
-```
-
-## 📁 Structure du Projet
-
-```
-src/
-├── app/                  # Pages Next.js
-│   ├── page.tsx         # Page d'accueil
-│   └── bottles/         # Gestion des bouteilles
-├── components/          # Composants React
-│   ├── MenuLink.tsx     # Composant de navigation
-│   └── ui/             # Composants UI réutilisables
-├── lib/                # Utilitaires
-│   └── prisma.ts      # Configuration Prisma
-└── ...
-
-prisma/
-└── schema.prisma      # Schéma de la base de données
-```
-
-## 📱 Optimisations Tablette
-- Grands boutons tactiles
-- Interface adaptée aux écrans tactiles
-- Future compatibilité avec scanner de codes-barres
-
