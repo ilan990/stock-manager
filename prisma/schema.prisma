@@ -1,0 +1,30 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Bottle {
+  id          String    @id @default(cuid())
+  name        String
+  type        String    // Vin, Spiritueux, etc.
+  quantity    Int       @default(0)
+  minQuantity Int       @default(5)  // Pour plus tard (alertes)
+  price       Float?    
+  movements   Movement[]
+}
+
+model Movement {
+  id        String   @id @default(cuid())
+  bottleId  String
+  bottle    Bottle   @relation(fields: [bottleId], references: [id])
+  quantity  Int      // Négatif pour sortie, positif pour entrée
+  reason    String   // "Service Bar" ou "Vente Client"
+  staffName String   // Qui a fait le mouvement
+  createdAt DateTime @default(now())
+}
