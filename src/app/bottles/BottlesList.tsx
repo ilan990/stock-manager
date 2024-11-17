@@ -2,17 +2,29 @@
 "use client"
 
 import { useState } from 'react';
-import { Bottle } from '@prisma/client';
 import StockActions, { BatchUpdate } from './StockActions';
+
+// Définir l'interface Bottle
+interface Bottle {
+  id: string;
+  name: string;
+  type: string | null;
+  quantity: number;
+  categoryId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 interface BottlesListProps {
   initialBottles: Bottle[];
+  showAddButton?: boolean;
 }
 
 export default function BottlesList({ initialBottles = [] }: BottlesListProps) {
   const [bottles, setBottles] = useState<Bottle[]>(initialBottles);
-  const [updates, setUpdates] = useState<BatchUpdate[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+    const [updates, setUpdates] = useState<BatchUpdate[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [lastSaveTimestamp, setLastSaveTimestamp] = useState<number>(Date.now());
 
   const handleBatchUpdate = (bottleUpdates: BatchUpdate[]) => {
     setUpdates(currentUpdates => {
@@ -59,6 +71,9 @@ export default function BottlesList({ initialBottles = [] }: BottlesListProps) {
       const updatedBottles = await response.json();
       setBottles(updatedBottles);
       setUpdates([]);
+      setLastSaveTimestamp(Date.now()); 
+      window.location.reload();
+
     } catch (error) {
       console.error('Error updating stock:', error);
       alert('Une erreur est survenue lors de la mise à jour du stock.');
@@ -102,6 +117,7 @@ export default function BottlesList({ initialBottles = [] }: BottlesListProps) {
                     quantity={bottle.quantity}
                     onBatchUpdate={handleBatchUpdate}
                     isSubmitting={isSubmitting}
+                    lastSaveTimestamp={lastSaveTimestamp} // Ajouter cette prop
                   />
                 </div>
               </div>

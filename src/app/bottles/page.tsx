@@ -1,5 +1,4 @@
 // app/bottles/page.tsx
-import { Bottle } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import BottlesList from './BottlesList';
 import Link from 'next/link';
@@ -9,7 +8,8 @@ export default async function BottlesPage({
 }: {
   searchParams: { categoryId?: string }
 }) {
-  const { categoryId } = searchParams;
+  const params = await Promise.resolve(searchParams);
+const categoryId = params.categoryId;
 
   if (!categoryId) {
     return (
@@ -22,14 +22,16 @@ export default async function BottlesPage({
     );
   }
 
-  const category = await prisma.category.findUnique({
-    where: { id: categoryId },
-  });
-
-  const bottles = await prisma.bottle.findMany({
-    where: { categoryId },
-    orderBy: { name: 'asc' },
-  });
+  // Utiliser Promise.all pour paralléliser les requêtes à la base de données
+  const [category, bottles] = await Promise.all([
+    prisma.category.findUnique({
+      where: { id: categoryId },
+    }),
+    prisma.bottle.findMany({
+      where: { categoryId },
+      orderBy: { name: 'asc' },
+    })
+  ]);
 
   return (
     <main className="container mx-auto p-4">

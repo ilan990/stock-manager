@@ -1,6 +1,7 @@
 // app/api/bottles/batch-update/route.ts
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { createMessage } from '@/app/services/whatsapp';
 
 interface BatchUpdate {
   bottleId: string;
@@ -21,6 +22,15 @@ export async function POST(request: Request) {
         })
       )
     );
+
+    // Vérifier les niveaux de stock et envoyer des alertes si nécessaire
+    console.log(updates)
+    for (const update of updates) {
+      if (update.newQuantity <= 5 && update.originalQuantity > 5) {
+        console.log('okkkkkkk');
+        await createMessage(update.bottleId, update.newQuantity);
+      }
+    }
 
     return NextResponse.json(updatedBottles);
   } catch (error) {

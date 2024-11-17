@@ -1,6 +1,8 @@
 // prisma/seed.ts
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+export {};
+
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
 function getRandomQuantity() {
   return Math.floor(Math.random() * (150 - 5 + 1)) + 5;
